@@ -138,3 +138,6 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db
+
+#extra
+stage0_writeup.md

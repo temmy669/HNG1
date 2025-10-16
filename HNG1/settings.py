@@ -158,4 +158,15 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ]   , 
+    
+    'EXCEPTION_HANDLER': 'HNG1.exceptions.custom_exception_handler',
+    # (optional) ensure throttling is configured
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '100/day',   # adjust to your need
+        'anon': '10/minute',
+    },
 }
