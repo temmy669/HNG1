@@ -9,6 +9,9 @@ This is a Django REST API that implements a dynamic profile endpoint as per the 
 - Dynamic UTC timestamp in ISO 8601 format
 - Error handling for external API failures
 - CORS enabled for cross-origin requests
+- Rate limiting (10 requests per minute per IP)
+- Logging for debugging and monitoring
+- Redis cache backend for rate limiting (production-ready)
 
 ## Setup Instructions
 
@@ -87,6 +90,7 @@ Returns user profile information with a dynamic cat fact.
 - django-cors-headers==4.9.0
 - requests==2.32.5
 - django-ratelimit==4.1.0
+- redis (for production cache backend)
 
 ## Environment Variables
 
@@ -107,3 +111,18 @@ Or open in browser: `http://127.0.0.1:8000/me`
 ## Deployment
 
 This API can be deployed to platforms like Railway, Heroku, or AWS. Ensure environment variables are set in your deployment platform's configuration.
+
+### Production Cache Configuration
+
+For production deployment, update the cache configuration in `settings.py` to use Redis:
+
+```python
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Update with your Redis URL
+    }
+}
+```
+
+Install Redis and update the `LOCATION` with your Redis connection string.
