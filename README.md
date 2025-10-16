@@ -68,6 +68,8 @@ The API will be available at `http://127.0.0.1:8000/`
 
 Returns user profile information with a dynamic cat fact.
 
+**Rate Limit:** 10 requests per minute per IP address
+
 **Response Format:**
 ```json
 {
@@ -81,6 +83,45 @@ Returns user profile information with a dynamic cat fact.
   "fact": "A random cat fact from the API"
 }
 ```
+
+**Error Response (Rate Limit Exceeded):**
+```json
+{
+  "status": "error",
+  "message": "Rate limit exceeded. Too many requests from your IP address.",
+  "retry_after_seconds": 60,
+  "error_code": "RATE_LIMIT_EXCEEDED"
+}
+```
+
+## API Documentation
+
+The API includes comprehensive documentation accessible through multiple formats:
+
+### Swagger UI
+Interactive API documentation with testing capabilities:
+```
+http://127.0.0.1:8000/api/docs/swagger/
+```
+
+### ReDoc
+Alternative documentation view with clean, responsive design:
+```
+http://127.0.0.1:8000/api/docs/redoc/
+```
+
+### OpenAPI Schema
+Raw OpenAPI 3.0 specification in JSON format:
+```
+http://127.0.0.1:8000/api/schema/
+```
+
+The documentation includes:
+- Detailed endpoint descriptions
+- Request/response schemas
+- Example responses
+- Rate limiting information
+- Error response formats
 
 ## Dependencies
 
@@ -127,3 +168,5 @@ CACHES = {
 ```
 
 Install Redis and update the `LOCATION` with your Redis connection string.
+
+
