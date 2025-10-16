@@ -90,6 +90,7 @@ Returns user profile information with a dynamic cat fact.
 - django-cors-headers==4.9.0
 - requests==2.32.5
 - django-ratelimit==4.1.0
+- django-redis==6.0.0
 - redis (for production cache backend)
 
 ## Environment Variables
