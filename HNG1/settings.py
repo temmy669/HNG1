@@ -29,7 +29,8 @@ STACK = config('STACK')
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+# DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG= True
 
 ALLOWED_HOSTS = ['*']
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     #Third party apps
     'rest_framework',
     'django_ratelimit',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -157,16 +159,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-    ]   , 
-    
-    'EXCEPTION_HANDLER': 'HNG1.exceptions.custom_exception_handler',
-    # (optional) ensure throttling is configured
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.UserRateThrottle',
-        'rest_framework.throttling.AnonRateThrottle',
     ],
-    'DEFAULT_THROTTLE_RATES': {
-        'user': '100/day',   # adjust to your need
-        'anon': '10/minute',
-    },
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'HNG1.exceptions.custom_exception_handler',
 }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API DOCUMENTATION',
+    'DESCRIPTION': 'API documentation for HNG13 Stage 0 Task',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # Other optional settings here
+}
+

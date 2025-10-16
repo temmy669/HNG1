@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: HNG Backend Wizards Stage 0 - Dynamic Profile API
+  version: 1.0.0
+  description: |
+    A REST API endpoint that returns dynamic profile information with real-time cat facts.
+
+    **Features:**
+    - Dynamic UTC timestamps
+    - Real-time cat facts from external API
+    - Rate limiting (10 requests/minute per IP)
+    - Comprehensive error handling
+    - CORS enabled
+
+    **Rate Limiting:** 10 requests per minute per IP address
+  contact:
+    name: Favour Adebose
+    email: favouradebose@gmail.com
+
+servers:
+  - url: http://127.0.0.1:8000
+    description: Development server
+  - url: https://your-deployed-url.com
+    description: Production server
+
+paths:
+  /me:
+    get:
+      summary: Get Profile Information
+      description: |
+        Returns user profile information with a dynamic timestamp and random cat fact.
+
+        **Rate Limit:** 10 requests per minute per IP address
+      operationId: get_profile
+      tags:
+        - Profile
+      responses:
+        '200':
+          description: Successful response with profile data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        format: email
+                        example: "favouradebose@gmail.com"
+                      name:
+                        type: string
+                        example: "Favour Adebose"
+                      stack:
+                        type: string
+                        example: "Python/Django"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2025-10-15T12:34:56.789Z"
+                  fact:
+                    type: string
+                    example: "Cats have over 20 muscles that control their ears."
+                required:
+                  - status
+                  - user
+                  - timestamp
+                  - fact
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "error"
+                  message:
+                    type: string
+                    example: "Rate limit exceeded. Too many requests from your IP address."
+                  retry_after_seconds:
+                    type: integer
+                    example: 60
+                  error_code:
+                    type: string
+                    example: "RATE_LIMIT_EXCEEDED"
+                required:
+                  - status
+                  - message
+                  - retry_after_seconds
+                  - error_code
+
+  /api/docs/swagger/:
+    get:
+      summary: Swagger UI
+      description: Interactive API documentation
+      tags:
+        - Documentation
+
+  /api/docs/redoc/:
+    get:
+      summary: ReDoc Documentation
+      description: Alternative API documentation view
+      tags:
+        - Documentation
+
+  /api/schema/:
+    get:
+      summary: OpenAPI Schema
+      description: OpenAPI 3.0 schema in JSON format
+      tags:
+        - Documentation
+      responses:
+        '200':
+          description: OpenAPI schema
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  securitySchemes:
+    rateLimit:
+      type: http
+      scheme: bearer
+      description: |
+        Rate limiting is applied per IP address.
+        Maximum 10 requests per minute.
