@@ -86,6 +86,7 @@ Returns user profile information with a dynamic cat fact.
 - python-decouple==3.8
 - django-cors-headers==4.9.0
 - requests==2.32.5
+- django-ratelimit==4.1.0
 
 ## Environment Variables
 
