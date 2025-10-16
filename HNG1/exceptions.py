@@ -28,5 +28,13 @@ def custom_exception_handler(exc, context):
             response.data = custom_response_data
         else:
             response = Response(custom_response_data, status=429)
+            
+    elif isinstance(exc, Exception) and response is None:
+        custom_response_data = {
+            "status": "error",
+            "message": "An unexpected error occurred. Please try again later.",
+            "error_code": "INTERNAL_SERVER_ERROR"
+        }
+        response = Response(custom_response_data, status=500)
 
     return response
