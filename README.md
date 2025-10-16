@@ -21,7 +21,7 @@ This is a Django REST API that implements a dynamic profile endpoint as per the 
 
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/temmy669/HNG1.git
    cd HNG1
    ```
 
